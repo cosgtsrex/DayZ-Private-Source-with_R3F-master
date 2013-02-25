@@ -195,6 +195,9 @@ _playerObj setVariable ["lastTime", time];
 
 diag_log ("PLAYER: LOGIN PUBLISHED: " + str(_playerObj));
 
+//SARGE DEBUG - REMOVE ME !!!!!!!!
+_playerObj allowDamage false;
+
 // Clean up
 dayzLogin 	= null;
 dayzLogin2 	= null;

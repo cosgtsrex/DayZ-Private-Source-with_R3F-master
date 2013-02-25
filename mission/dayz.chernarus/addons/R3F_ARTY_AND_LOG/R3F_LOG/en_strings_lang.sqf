@@ -63,4 +63,6 @@ STR_R3F_LOG_dlg_CV_btn_fermer = "Cancel";
 STR_R3F_LOG_action_lock_vehicule = "Lock the vehicle";
 STR_R3F_LOG_action_unlock_vehicule = "Unlock the vehicle";
 
+STR_R3F_LOG_action_save_objet = "Save ...";
+
 STR_R3F_LOG_nom_pc_arti = "Artillery CQ";

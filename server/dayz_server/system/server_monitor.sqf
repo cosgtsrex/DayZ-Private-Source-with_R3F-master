@@ -33,6 +33,18 @@ diag_log ("SERVER: INSTANCE: " + str(dayz_instance));
 
 waitUntil { initialized };
 
+// Sarge - Set R3F variable to all objects on the map
+
+
+_i=0;
+{
+_x setVariable ["R3F_LOG_disabled", true, true];
+_i=_i+1;
+} forEach nearestObjects [[7615.7163, 7217.0703,0], ["All"], 6000];
+
+diag_log format["SARGE DEBUG: %1 objects made unmoveable",_i];
+
+
 diag_log ("HIVE: Starting ...");
 
 // Fetch and spawn objects --------------------------------------------------------------------------------------------
@@ -86,7 +98,7 @@ if (_status == "ObjectStreamStart") then {
 	};
 	
 	if (_damage < 1) then {
-		diag_log ("DEBUG: Spawned: " + str(_idKey) + " " + _type);
+		//diag_log ("DEBUG: Spawned: " + str(_idKey) + " " + _type);
 
 		_object = createVehicle [_type, _pos, [], 0, "CAN_COLLIDE"];
 		_object setVariable ["lastUpdate", time];
@@ -156,11 +168,13 @@ if (_status == "ObjectStreamStart") then {
 	};
 } forEach _objects;
 
+
+
 // Fetch and spawn buildings ------------------------------------------------------------------------------------------
 
 diag_log ("HIVE: Fetching custom buildings ...");
 
-_key 		= format ["CHILD:999:select b.class_name, ib.worldspace from instance_building ib join building b on ib.building_id = b.id where ib.instance_id = ?:[%1]:", dayZ_instance];
+_key 		= format ["CHILD:999:select b.class_name, ib.worldspace, ib.id from instance_building ib join building b on ib.building_id = b.id where ib.instance_id = ?:[%1]:", dayZ_instance];
 _result 	= _key call server_hiveReadWrite;
 _status 	= _result select 0;
 _count 	= 0;
@@ -173,8 +187,15 @@ if (_status == "CustomStreamStart") then {
 		_pos = call compile (_result select 1);
 		_dir = _pos select 0;
 		_pos = _pos select 1;
-		_building = createVehicle [_result select 0, _pos, [], 0, "CAN_COLLIDE"];
-		_building setDir _dir;
+		_building = createVehicle [_result select 0, _pos, [], 0, "NONE"];
+        
+        _building setpos [getpos _building select 0,getpos _building select 1,0];
+
+        // SARGE - store db ID in  the object
+        
+        _idKey = _result select 2;
+        _building setVariable ["ObjectID", _idKey, true];
+        _building setVariable ["R3F_LOG_disabled", false, true];
 		_count = _count + 1;
 	};
 	diag_log ("HIVE: Fetched " + str(_count) + " buildings!");
@@ -191,16 +212,46 @@ if (_outcome == "PASS") then {
 	diag_log ("SERVER: Local Time set to " + str(_date));
 };
 
+// SARGE - Spawn building objects over the map
+
+
+// DEBUG - diasbled for a faster start
+//call SAR_objects;
+
+
+
 // Finish initialization ----------------------------------------------------------------------------------------------
 
 createCenter civilian;
+createCenter west;
+createCenter east;
+
+
+EAST setFriend [WEST, 0]; 
+WEST setFriend [EAST, 0];
+
+// SARGE - setup trigger areas
+
+//call SAR_trig;
+_h_script = [] execVM "\z\addons\dayz_server\compile\SAR_setup_map.sqf";
+waitUntil {scriptDone _h_script};
+
+// SARGE - Initialize AI
+
+//call SAR_AI;
+[] execVM "\z\addons\dayz_server\compile\SAR_setup_AI.sqf";
+
+
+
 
 if (isDedicated) then {
 	endLoadingScreen;
 	_id = [] execFSM "\z\addons\dayz_server\system\server_cleanup.fsm";
 };
 
+
 allowConnection = true;
+
 
 // Spawn crashsites and wrecks ----------------------------------------------------------------------------------------
 
@@ -220,9 +271,9 @@ if (SpawnWrecks) then {
 
 	[["MV22Wreck", "LADAWreck", "BMP2Wreck", "MH60Wreck", "C130JWreck", "Mi24Wreck", "UralWreck", "HMMWVWreck", "T72Wreck"], ["Residential", "Industrial", "Military", "Farm", "Supermarket", "Hospital"], _count, (50 * 60), (15 * 60), 0.75, 'center', 4000, false, false] spawn server_spawnWreck;
 
-	if (dayz_plusversionNo != null) then {
-		[["UH60Wreck_DZ", "UH1Wreck_DZ"], ["UH60Crash", "UH1YCrash"], 4, (50 * 60), (15 * 60), 0.75, 'center', 4000, true, false] spawn server_spawnWreck;
-	};
+	//if (dayz_plusversionNo != null) then {
+	//	[["UH60Wreck_DZ", "UH1Wreck_DZ"], ["UH60Crash", "UH1YCrash"], 4, (50 * 60), (15 * 60), 0.75, 'center', 4000, true, false] spawn server_spawnWreck;
+	//};
 };
 if (SpawnCare) then {
 	_count = 4;

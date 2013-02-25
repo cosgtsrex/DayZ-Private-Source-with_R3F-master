@@ -11,6 +11,7 @@ class Mission
 		"dayz_vehicles",
 		"cacharacters_pmc",
 		"ca_modules_functions"
+        
 	};
 	addOnsAuto[]=
 	{

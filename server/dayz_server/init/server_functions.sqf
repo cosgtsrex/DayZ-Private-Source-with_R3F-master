@@ -15,6 +15,16 @@ server_deleteObj 			= compile preprocessFileLineNumbers "\z\addons\dayz_server\c
 server_onPlayerDisconnect 	= compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_playerDisconnect.sqf";
 server_updateObject 		= compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_objectUpdate.sqf";
 server_spawnWreck 			= compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_spawnWreck.sqf";
+server_updateNearbyObjects	= compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_objectUpdateNearby.sqf";
+
+// SARGE
+SAR_save2hive    			= compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\SAR_save2hive.sqf";
+SAR_objects                 = compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\SAR_objectsSpawning.sqf";
+SAR_AI_heli                 = compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\SAR_setup_AI_patrol_heli.sqf";
+
+// SHK
+
+call compile preprocessfile "\z\addons\dayz_server\SHK_pos\shk_pos_init.sqf";
 
 //onPlayerConnected 		"[_uid, _name] spawn server_onPlayerConnect;";
 onPlayerDisconnected 		"[_uid, _name] call server_onPlayerDisconnect;";
@@ -90,28 +100,27 @@ zombie_findOwner = {
 	private ["_unit"];
 
 	_unit = _this select 0;
-	diag_log ("CLEANUP: DELETE UNCONTROLLED ZOMBIE: " + (typeOf _unit) + " OF " + str(_unit) );
+	//diag_log ("CLEANUP: DELETE UNCONTROLLED ZOMBIE: " + (typeOf _unit) + " OF " + str(_unit) );
 
 	deleteVehicle _unit;
 };
 
-server_updateNearbyObjects = {
-	{ [_x, "gear"] call server_updateObject; } forEach nearestObjects [_this select 0, ["Car", "Helicopter", "Motorcycle", "Ship", "TentStorage", "tent2017"], 10];
-};
+
 
 server_hiveWrite = {
 	private ["_data"];
-
+	//diag_log ("ATTEMPT WRITE: " + _this);
 	_data = "HiveExt" callExtension _this;
-	//diag_log ("HIVE: WRITE: " + str(_data));
+	//diag_log ("WRITE: " +str(_data));
 };
 
 server_hiveReadWrite = {
 	private["_key", "_resultArray", "_data"];
 
 	_key = _this;
+	//diag_log ("ATTEMPT READ/WRITE: " + _key);
 	_data = "HiveExt" callExtension _key;
-	//diag_log ("HIVE: READ/WRITE: " + str(_data));
+	//diag_log ("READ/WRITE: " +str(_data));
 	_resultArray = call compile format ["%1", _data];
 
 	_resultArray

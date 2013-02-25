@@ -63,6 +63,11 @@ if (!isDedicated) then {
 	#endif
 	
 	_null = [] execVM "kh_actions.sqf";
+    
+    [] execVM "addons\proving_Ground\init.sqf";    
 };
 
 [] execVM "addons\R3F_ARTY_AND_LOG\init.sqf";
+
+call compile preprocessFileLineNumbers "addons\UPSMON\scripts\Init_UPSMON.sqf";
+

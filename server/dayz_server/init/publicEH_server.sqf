@@ -12,3 +12,6 @@ registerServerRpc = { if (isServer) then { _this call registerBroadcastRpc; }; }
 //["dayzPlayerMorph",	{ (_this select 1) call server_playerMorph; }			 ] call registerServerRpc;
 ["dayzLoginRecord",		{ (_this select 1) call dayz_recordLogin; }				 ] call registerServerRpc;
 ["dayzCharDisco",		{ (_this select 1) call server_characterSync; }			 ] call registerServerRpc;
+
+// SARGE event handler to save relocated buildings
+["SAR_savebuilding",		{ (_this select 1) spawn SAR_save2hive; }			 ] call registerServerRpc;

@@ -5,7 +5,13 @@ _object 		= _this select 1;
 _worldspace 	= _this select 2;
 _class 			= _this select 3;
 
-if (!(_object isKindOf "Building")) exitWith { deleteVehicle _object; };
+if (!(_object isKindOf "Building")) exitWith { 
+
+deleteVehicle _object; 
+
+diag_log "SARGE DEBUG: Vehicle deleted";
+
+};
 
 _uid = _worldspace call dayz_objectUID2;
 _key = format ["CHILD:308:%1:%2:%3:%4:%5:", dayz_instance, _class, _charID, _worldspace, _uid];

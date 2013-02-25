@@ -74,7 +74,21 @@ else
 		}
 		else
 		{
-			_objet attachTo [player, [
+
+            // SARGE tell me that we are here
+            
+            // player globalChat "Point to store the old coordinates";
+            
+            // what about stuff that i have unloaded from a car?
+        
+            // get coordinates of the object
+            
+            // search for object in the instance_buildings table
+            
+            // if found, delete it
+
+
+        _objet attachTo [player, [
 				0,
 				(((boundingBox _objet select 1 select 1) max (-(boundingBox _objet select 0 select 1))) max ((boundingBox _objet select 1 select 0) max (-(boundingBox _objet select 0 select 0)))) + 1,
 				1]
@@ -153,6 +167,20 @@ else
 			};
 			
 			_objet setVelocity [0, 0, 0];
+            
+            // SARGE get position of the object
+            
+            //_newpos = getPos [getPos _objet select 0, getPos _objet select 1, getPos _objet select 2];
+            
+            // verify if the object is already in the buildings table, if not add it
+            
+            // store object id and location in the instance_buildings table
+            
+            // do i need to propagate this info to all clients ?
+
+            // do i need to add the bjext to the objectmanager?
+            
+            
 			
 			player removeAction _action_menu_release_relative;
 			player removeAction _action_menu_release_horizontal;
@@ -162,6 +190,8 @@ else
 			R3F_LOG_joueur_deplace_objet = objNull;
 			
 			_objet setVariable ["R3F_LOG_est_deplace_par", objNull, true];
+            
+            
 			
 			// Restauration de l'arme primaire
 			if (alive player && _arme_principale != "") then

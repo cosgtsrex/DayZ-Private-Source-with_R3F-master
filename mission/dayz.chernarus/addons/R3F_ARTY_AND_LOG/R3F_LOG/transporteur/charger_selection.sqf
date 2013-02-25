@@ -78,11 +78,16 @@ else
 					
 					// Choisir une position dégagée (sphère de 50m de rayon) dans le ciel dans un cube de 9km^3
 					private ["_nb_tirage_pos", "_position_attache"];
-					_position_attache = [random 3000, random 3000, (10000 + (random 3000))];
+					
+                    // SARGE
+                    //_position_attache = [random 3000, random 3000, (10000 + (random 3000))];
+                    _position_attache = [random 30, random 30, (10 + (random 30))];
 					_nb_tirage_pos = 1;
 					while {(!isNull (nearestObject _position_attache)) && (_nb_tirage_pos < 25)} do
 					{
-						_position_attache = [random 3000, random 3000, (10000 + (random 3000))];
+						// SARGE
+                        //_position_attache = [random 3000, random 3000, (10000 + (random 3000))];
+                        _position_attache = [random 30, random 30, (10 + (random 30))];
 						_nb_tirage_pos = _nb_tirage_pos + 1;
 					};
 					

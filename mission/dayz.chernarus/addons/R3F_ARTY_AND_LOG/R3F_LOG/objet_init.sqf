@@ -20,7 +20,7 @@ _doUnlock = 1;
 _est_desactive = _objet getVariable "R3F_LOG_disabled";
 if (isNil "_est_desactive") then
 {
-	_objet setVariable ["R3F_LOG_disabled", false];
+	_objet setVariable ["R3F_LOG_disabled", true];
 };
 
 // Définition locale de la variable si elle n'est pas définie sur le réseau
@@ -61,7 +61,16 @@ _objet addEventHandler ["GetIn",
 
 if ({_objet isKindOf _x} count R3F_LOG_CFG_objets_deplacables > 0) then
 {
-	_objet addAction [("<t color=""#dddd00"">" + STR_R3F_LOG_action_deplacer_objet + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\deplacer.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide && !(_target getVariable ['objectLocked', false])"];
+// SARGE action to save the object 
+    
+    createDialog "balca_debug_main";
+    _objet addAction [("<t color=""#ff0000"">" + "Debug ..." + "</t>"), "addons\proving_ground\fnc_show_dialog.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide"];    
+    
+    _objet addAction [("<t color=""#000000"">" + STR_R3F_LOG_action_save_objet + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\SAR_savebuilding.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide"];
+
+    _objet addAction [("<t color=""#FFFFFF"">" + "Object Info..." + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\SAR_objectinfo.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide"];    
+    
+    _objet addAction [("<t color=""#dddd00"">" + STR_R3F_LOG_action_deplacer_objet + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\deplacer.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide && !(_target getVariable ['objectLocked', false])"];
 	_objet addAction [("<t color=""#21DE31"">" + STR_LOCK_OBJECT + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\objectLockStateMachine.sqf", _doLock, -5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide && Object_canLock"];
 	_objet addAction [("<t color=""#E01B1B"">" + STR_UNLOCK_OBJECT + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\objectLockStateMachine.sqf", _doUnlock, -5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide && !Object_canLock"];
 };

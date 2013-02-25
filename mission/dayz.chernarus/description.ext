@@ -132,8 +132,12 @@ class DayZ_loadingScreen
 	};
 };
 
+#include "addons\proving_ground\PG_config.hpp"
+
 #include "addons\R3F_ARTY_AND_LOG\desc_include.h"
+
 class RscTitles
 {
-#include "addons\R3F_ARTY_AND_LOG\desc_rsct_include.h"
+	#include "addons\proving_ground\PG_rsctitles.hpp"
+    #include "addons\R3F_ARTY_AND_LOG\desc_rsct_include.h"
 };

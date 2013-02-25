@@ -69,13 +69,13 @@ R3F_LOG_CFG_objets_remorquables = [
 	"ArmoredSUV_Base_PMC",
 	"SUV_Base_EP1",
 	"Volha_TK_CIV_Base_EP1",
-	"An2_Base_EP1",
+	"An2_Base_EP1"
 
-	"Land_fortified_nest_big",
-	"Land_ConcreteRamp",
-	"RampConcrete",
-	"Land_ConcreteBlock",
-	"Land_Fort_Watchtower"
+//	"Land_fortified_nest_big",
+//	"Land_ConcreteRamp",
+//	"RampConcrete",
+//	"Land_ConcreteBlock",
+//	"Land_Fort_Watchtower"
 ];
 
 /****** LIFT WITH VEHICLE / HELIPORTER AVEC VEHICULE ******/
@@ -119,15 +119,8 @@ R3F_LOG_CFG_objets_heliportables = [
 	"S1203_TK_CIV_EP1",
 	"ArmoredSUV_Base_PMC",
 	"SUV_Base_EP1",
-	"Volha_TK_CIV_Base_EP1",
-	"BAF_Jackal2_BASE_D",
-	"M119",
+	"Volha_TK_CIV_Base_EP1"
 
-	"USBasicAmmunitionBox",
-	"RUBasicAmmunitionBox",
-	"LocalBasicAmmunitionBox",
-	"GuerillaCacheBox",
-	"ReammoBox_EP1"
 ];
 
 
