@@ -5,8 +5,6 @@ diag_log "Started init of pg";
 
 if (!__launchCondition) exitWith {};
 
-diag_log "pg continued - 1";
-
 if (isClass(configFile >> "cfgPatches" >> "ace_main")) then {
 	ace_sys_wounds_enabled = true;
 	publicVariable "ace_sys_wounds_enabled";
@@ -17,8 +15,6 @@ if (time==0) then {
 };
 
 if !(isNil{GVAR(init)}) exitWith {};
-
-diag_log "pg continued - 2";
 
 /*
 

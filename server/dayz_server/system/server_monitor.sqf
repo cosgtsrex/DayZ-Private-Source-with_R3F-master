@@ -216,31 +216,11 @@ if (_outcome == "PASS") then {
 
 
 // DEBUG - diasbled for a faster start
-//call SAR_objects;
+call SAR_objects;
 
 
 
 // Finish initialization ----------------------------------------------------------------------------------------------
-
-createCenter civilian;
-createCenter west;
-createCenter east;
-
-
-EAST setFriend [WEST, 0]; 
-WEST setFriend [EAST, 0];
-
-// SARGE - setup trigger areas
-
-//call SAR_trig;
-_h_script = [] execVM "\z\addons\dayz_server\compile\SAR_setup_map.sqf";
-waitUntil {scriptDone _h_script};
-
-// SARGE - Initialize AI
-
-//call SAR_AI;
-[] execVM "\z\addons\dayz_server\compile\SAR_setup_AI.sqf";
-
 
 
 

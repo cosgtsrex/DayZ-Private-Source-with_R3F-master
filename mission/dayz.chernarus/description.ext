@@ -16,11 +16,12 @@ diagHit = 1;
 class Header
 {
 	gameType = COOP;
+    //gameType = DM;
 	minPlayers = 1;
 	maxPlayers = 100;
 };
 
-#include "gcam\gcam_component.hpp"
+//#include "gcam\gcam_component.hpp"
 
 class RscText
 {

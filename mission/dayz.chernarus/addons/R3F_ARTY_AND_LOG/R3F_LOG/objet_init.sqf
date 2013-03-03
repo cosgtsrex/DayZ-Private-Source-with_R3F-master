@@ -63,7 +63,7 @@ if ({_objet isKindOf _x} count R3F_LOG_CFG_objets_deplacables > 0) then
 {
 // SARGE action to save the object 
     
-    createDialog "balca_debug_main";
+    //createDialog "balca_debug_main";
     _objet addAction [("<t color=""#ff0000"">" + "Debug ..." + "</t>"), "addons\proving_ground\fnc_show_dialog.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide"];    
     
     _objet addAction [("<t color=""#000000"">" + STR_R3F_LOG_action_save_objet + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\SAR_savebuilding.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_deplacer_objet_valide"];

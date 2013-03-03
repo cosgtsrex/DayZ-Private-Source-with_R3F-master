@@ -43,14 +43,14 @@ objectList = [	"Land_prebehlavka",
 // define area (Chernarus)
 
 _this = createMarker ["_shk_area", [7615.7163, 7217.0703]];
-_this setMarkerAlpha 1;
+_this setMarkerAlpha 0;
 _this setMarkerShape "RECTANGLE";
 _this setMarkerType "SOLID";
 _this setMarkerBrush "Border";
 _this setMarkerSize [6000, 6000];
 _marker_0 = _this;
 
-[_marker_0, true] call CBA_fnc_setMarkerPersistent;
+//[_marker_0, true] call CBA_fnc_setMarkerPersistent;
 
 
 while {_counter < 100} do
@@ -77,11 +77,13 @@ while {_counter < 100} do
     _ypos=_newpos select 1;
     
 	_marker = createMarker [_markerName, [_xpos,_ypos]];
+    _marker setMarkerAlpha 0;
 	_marker setMarkerType "FLAG";
 	_marker setMarkerColor "ColorRed";
     _marker setMarkerShape "ICON";
+    _marker setMarkerSize [0.5,0.5];
     
-    [_marker, true] call CBA_fnc_setMarkerPersistent;
+    //[_marker, true] call CBA_fnc_setMarkerPersistent;
     
     _counter = _counter + 1;
 };

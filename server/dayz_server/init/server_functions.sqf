@@ -20,11 +20,6 @@ server_updateNearbyObjects	= compile preprocessFileLineNumbers "\z\addons\dayz_s
 // SARGE
 SAR_save2hive    			= compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\SAR_save2hive.sqf";
 SAR_objects                 = compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\SAR_objectsSpawning.sqf";
-SAR_AI_heli                 = compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\SAR_setup_AI_patrol_heli.sqf";
-
-// SHK
-
-call compile preprocessfile "\z\addons\dayz_server\SHK_pos\shk_pos_init.sqf";
 
 //onPlayerConnected 		"[_uid, _name] spawn server_onPlayerConnect;";
 onPlayerDisconnected 		"[_uid, _name] call server_onPlayerDisconnect;";

@@ -46,14 +46,14 @@ KRON_UPS_sharedist = 200;
 
 // If enabled IA communication between them with radio defined sharedist distance, 0/2 
 // (must be set to 2 in order to use reinforcement !R)
-KRON_UPS_comradio = 2;
+KRON_UPS_comradio = 0;
 
 //Sides that are enemies of resistance
 KRON_UPS_Res_enemy = [west];
 
 // Distance from destination for searching vehicles. (Search area is about 200m), 
 // If your destination point is further than KRON_UPS_searchVehicledist, AI will try to find a vehicle to go there.
-KRON_UPS_searchVehicledist = 600; // 700, 900  
+KRON_UPS_searchVehicledist = 1600; // 700, 900  
 
 //Enables or disables AI to use static weapons
 KRON_UPS_useStatics = false;
@@ -114,7 +114,9 @@ KRON_UPS_alerttime = 90;
 KRON_UPS_safedist = 250; //org 300
 
 // how close unit has to be to target to generate a new one target or to enter stealth mode
-KRON_UPS_closeenough = 300; //org 300 
+
+// SARGE DEBUG CHANGE
+KRON_UPS_closeenough = 30; //org 300 
 
 //Enable it to send reinforcements, better done it in a trigger inside your mission.
 KRON_UPS_reinforcement = false; 

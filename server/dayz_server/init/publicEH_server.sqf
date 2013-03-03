@@ -15,3 +15,4 @@ registerServerRpc = { if (isServer) then { _this call registerBroadcastRpc; }; }
 
 // SARGE event handler to save relocated buildings
 ["SAR_savebuilding",		{ (_this select 1) spawn SAR_save2hive; }			 ] call registerServerRpc;
+

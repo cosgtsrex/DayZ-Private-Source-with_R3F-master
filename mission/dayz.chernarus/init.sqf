@@ -12,7 +12,7 @@ dayz_previousID = 0;
 
 // Settings
 player setVariable ["BIS_noCoreConversations", true]; 	// Disable greeting menu
-//enableRadio false; 									// Disable global chat radio messages
+enableRadio false; 									// Disable global chat radio messages
 
 // Compile and call important functions
 call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\variables.sqf";
@@ -52,22 +52,28 @@ if (!isDedicated) then {
 	_id = player addEventHandler ["Respawn", { _id = [] spawn player_death; }];
 	_playerMonitor = [] execVM "\z\addons\dayz_code\system\player_monitor.sqf";
 	
-	#include "gcam\gcam_config.hpp"
-	#include "gcam\gcam_functions.sqf"
+	// #include "gcam\gcam_config.hpp"
+	// #include "gcam\gcam_functions.sqf"
 
-	#ifdef GCAM
-		waitUntil { alive Player };
-		waituntil { !(IsNull (findDisplay 46)) };
+	// #ifdef GCAM
+		// waitUntil { alive Player };
+		// waituntil { !(IsNull (findDisplay 46)) };
 
-		if (serverCommandAvailable "#kick") then { (findDisplay 46) displayAddEventHandler ["keyDown", "_this call fnc_keyDown"]; };
-	#endif
+		// if (serverCommandAvailable "#kick") then { (findDisplay 46) displayAddEventHandler ["keyDown", "_this call fnc_keyDown"]; };
+	// #endif
 	
-	_null = [] execVM "kh_actions.sqf";
+	_null = [] execVM "addons\kh\kh_actions.sqf";
     
     [] execVM "addons\proving_Ground\init.sqf";    
 };
 
 [] execVM "addons\R3F_ARTY_AND_LOG\init.sqf";
 
+// UPSMON
 call compile preprocessFileLineNumbers "addons\UPSMON\scripts\Init_UPSMON.sqf";
+// SHK 
+call compile preprocessfile "addons\SHK_pos\shk_pos_init.sqf";
+// run SAR_AI
+[] execVM "addons\SARGE\SAR_AI_init.sqf";
+
 
