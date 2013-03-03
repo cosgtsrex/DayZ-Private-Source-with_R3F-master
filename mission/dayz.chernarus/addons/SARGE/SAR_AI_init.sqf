@@ -91,16 +91,17 @@ diag_log format["Setting up SAR_AI for : %1",worldName];
 // Setup aremarker & trigger grid - DO NOT CHANGE
 //
 
-switch (worldname) do {
-    case "chernarus":
-    {
+//switch (worldname) do {
+//    case "chernarus":
+//    {
+        
         _startx=2500;
         _starty=2800;
         _gridsize_x=6;
         _gridsize_y=6;
         _gridwidth = 1000;
-    };
-};
+//    };
+//};
 
 SAR_area_ = text format ["SAR_area_%1","x"];
 
@@ -112,7 +113,7 @@ for [{_i=0}, {_i < _gridsize_x}, {_i=_i+1}] do
         _markername = format["SAR_area_%1_%2",_ii,_i];
         
         _this = createMarker[_markername,[_startx + (_ii * _gridwidth * 2),_starty + (_i * _gridwidth * 2)]];
-        if(SAR_DEBUG)then{_this setMarkerAlpha 1;};
+        _this setMarkerAlpha 1;
         _this setMarkerShape "RECTANGLE";
         _this setMarkerType "Flag";
         _this setMarkerBrush "BORDER";
@@ -136,6 +137,7 @@ for [{_i=0}, {_i < _gridsize_x}, {_i=_i+1}] do
         
         Call Compile Format ["SAR_trig_%1_%2 ",_ii,_i] setTriggerStatements [_trig_cond,_trig_act_stmnt , _trig_deact_stmnt];
 
+        
         // standard definition - maxgroups (ba,so,su) - probability (ba,so,su) - max group members (ba,so,su)
         SAR_AI_monitor set[count SAR_AI_monitor, [_markername,[1,1,1],[50,30,50],[3,5,3],[],[],[]]];
 
@@ -153,9 +155,9 @@ for [{_i=0}, {_i < _gridsize_x}, {_i=_i+1}] do
 // you can edit these values to your liking
 //
 
-switch (worldname) do {
-    case "chernarus":
-    {
+//switch (worldname) do {
+//    case "chernarus":
+//    {
 
         // Kamenka, 0 bandit groups, 0 soldier groups, 2 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
         _check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,2],[0,75,100],[0,4,3]],"SAR_area_0_0"] call SAR_AI_mon_upd; 
@@ -213,13 +215,13 @@ switch (worldname) do {
 
         // Krasno, 0 bandit groups, 1 soldier groups, 1 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
         _check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,1],[0,75,75],[0,4,2]],"SAR_area_4_5"] call SAR_AI_mon_upd; 
-    };
-};
+//    };
+//};
 // areas
 
-switch (worldname) do {
-    case "chernarus":
-    {
+//switch (worldname) do {
+//    case "chernarus":
+//    {
         // soutcoast, heli patrol area
         _this = createMarker ["SAR_patrol_soutcoast", [7997.2837, 2687.6707]];
         _this setMarkerShape "RECTANGLE";
@@ -267,8 +269,8 @@ switch (worldname) do {
         _this setMarkerSize [50, 50];
         _this setMarkerDir 59.354115;
         SAR_area_DEBUG = _this;
-    };
-};
+//    };
+//};
 
 diag_log format["SAR_AI: Area & Trigger definition finalized"];
 
@@ -278,9 +280,9 @@ diag_log format["SAR_AI: Area & Trigger definition finalized"];
 //
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 
-switch (worldname) do {
-    case "chernarus":
-    {
+//switch (worldname) do {
+//    case "chernarus":
+//    {
         //Heli Patrol NWAF
         [SAR_marker_helipatrol_nwaf] call SAR_AI_heli;
 
@@ -294,17 +296,17 @@ switch (worldname) do {
         // heli patrol east coast
         [SAR_marker_helipatrol_eastcoast] call SAR_AI_heli;
         [SAR_marker_helipatrol_eastcoast] call SAR_AI_heli;
-    };
-};
+//    };
+//};
 
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 
 // static spawning of infantry AI
 
-switch (worldname) do {
-    case "chernarus":
-    {
+//switch (worldname) do {
+//    case "chernarus":
+//    {
         // SARGE DEBUG - Debug group
         // military, 0 snipers, 4 riflemen, patrol
         //[SAR_area_DEBUG,1,0,1,""] call SAR_AI;
@@ -317,8 +319,8 @@ switch (worldname) do {
 
         // bandits, 5 snipers, 2 riflemen, patrol
         //[SAR_marker_helipatrol_nwaf,3,5,2,""] call SAR_AI;
-    };
-};
+//    };
+//};
 
 diag_log format["SAR_AI: Static Spawning for infantry patrols finished"];
 
