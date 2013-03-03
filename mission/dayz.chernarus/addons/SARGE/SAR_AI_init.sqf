@@ -112,7 +112,7 @@ for [{_i=0}, {_i < _gridsize_x}, {_i=_i+1}] do
         _markername = format["SAR_area_%1_%2",_ii,_i];
         
         _this = createMarker[_markername,[_startx + (_ii * _gridwidth * 2),_starty + (_i * _gridwidth * 2)]];
-        if(SARGE_DEBUG)then{_this setMarkerAlpha 1;};
+        if(SAR_DEBUG)then{_this setMarkerAlpha 1;};
         _this setMarkerShape "RECTANGLE";
         _this setMarkerType "Flag";
         _this setMarkerBrush "BORDER";
