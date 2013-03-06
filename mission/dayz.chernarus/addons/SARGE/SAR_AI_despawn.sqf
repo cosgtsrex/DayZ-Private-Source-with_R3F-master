@@ -15,13 +15,13 @@
 //  SAR_AI_despawn.sqf - handle the logic of despawning  AI groups via the defined trigger array
 // ---------------------------------------------------------------------------------------------------------
 
-if (!isServer) exitWith {}; // only run this on the server
 
-private["_timeout","_playerlist","_triggername","_tmparr","_markername","_valuearray", "_grps_band","_grps_sold","_grps_surv","_check"];
+private ["_timeout","_triggername","_tmparr","_markername","_valuearray","_grps_band","_grps_sold","_grps_surv","_check","_trigger"];
+
+if (!isServer) exitWith {}; // only run this on the server
 
 _timeout = SAR_DESPAWN_TIMEOUT;
 
-_playerlist = _this select 0;
 _trigger = _this select 1;
 _triggername = _this select 2;
 
@@ -34,17 +34,19 @@ _tmparr set[7,97];
 
 _markername=toString _tmparr;
 
-_player = _playerlist select 0;
-
 sleep _timeout;
 
 if !(triggerActivated _trigger) then {
 
     if (SAR_DEBUG) then {
-        diag_log format["Despawning groups in: %1", _markername];
+        diag_log format["SAR DEBUG: Despawning groups in: %1", _markername];
     };
 
-    //if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
+    if (SAR_EXTREME_DEBUG) then {
+        diag_log "SAR EXTREME DEBUG: Content of the Monitor before despawn deletion";
+        call SAR_DEBUG_mon;
+    };
+        
     
     // get all groups in that area
     _valuearray= [["grps_band","grps_sold","grps_surv"],_markername] call SAR_AI_mon_read; 
@@ -74,6 +76,9 @@ if !(triggerActivated _trigger) then {
     // update SAR_AI_monitor
     _check = [["grps_band","grps_sold","grps_surv"],[[],[],[]],_markername] call SAR_AI_mon_upd;     
 
-    //if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
+    if (SAR_EXTREME_DEBUG) then {
+        diag_log "SAR EXTREME DEBUG: Content of the Monitor after despawn deletion";
+        call SAR_DEBUG_mon;
+    };
     
 };

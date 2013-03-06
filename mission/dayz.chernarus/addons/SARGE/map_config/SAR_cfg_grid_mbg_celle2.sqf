@@ -12,19 +12,21 @@
 //  SHK_pos 
 //  
 // ---------------------------------------------------------------------------------------------------------
-//  SAR_AI_trigger.sqf - handle triggers activated on the clients
+//   grid cfg file for Celle
+//   last modified: 5.3.2013
 // ---------------------------------------------------------------------------------------------------------
 
-diag_log "Do i ever get here";
+// x coordinate of the first, bottom left grid center point
+_startx=2500;
 
-if (!isServer) exitWith {}; // only run this on the server
+// y coordinate of the first, bottom left grid center point
+_starty=2800;
 
-private["_pos","_ai","_aikiller","_player_or_ai","_aikiller_type","_aikiller_name", "_aikiller_side"];
+// gridsize x (how many single squares in the grid) for the x-axis
+_gridsize_x=6;
 
-_triggerlist = _this;
+// gridsize y (how many single squares in the grid) for the y-axis
+_gridsize_y=6;
 
-_player = _triggerlist select 0;
-
-diag_log["Value: %1",_triggerlist];
-diag_log["Side player: %1",side _player]; 
-diag_log["Isplayer: %1",isPlayer _player];
+// distance from the center of one square of the grid to the border of that square. so overall size of a square in the grid is 2x gridwidth / 2x gridwidth
+_gridwidth = 1000;
