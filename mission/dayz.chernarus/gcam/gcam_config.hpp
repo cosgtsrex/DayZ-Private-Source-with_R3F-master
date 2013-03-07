@@ -6,7 +6,7 @@
 #define GCAM true
 
 // Administrator List
-#define ADMINS [ "PLAYERID1", "PLAYERID2" ]
+#define ADMINS [ "92381766", "PLAYERID2" ]
 
 // Debug Mode
 #define DEBUG true

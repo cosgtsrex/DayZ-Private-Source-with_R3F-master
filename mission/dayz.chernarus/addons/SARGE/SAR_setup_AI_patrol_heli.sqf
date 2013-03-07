@@ -131,7 +131,7 @@ null=[_leaderheli,_patrol_area_name,'spawned','nofollow','nowait','aware',"delet
 processInitCommands;
 
 if(SAR_DEBUG) then {
-    diag_log format["SAR_DEBUG: static AI Heli patrol spawned in: %1",_patrol_area_name];
+    diag_log format["SAR_DEBUG: static AI Heli patrol (%2) spawned in: %1",_patrol_area_name,SAR_heli_type];
 };
 
 _groupheli;
