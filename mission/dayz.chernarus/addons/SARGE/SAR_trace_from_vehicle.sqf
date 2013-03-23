@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -13,12 +13,10 @@
 //  
 // ---------------------------------------------------------------------------------------------------------
 //   SAR_trace_from_vehicle.sqf
-//   last modified: 6.3.2013
+//   last modified: 20.3.2013
 // ---------------------------------------------------------------------------------------------------------
 
-// SARGE DEBUG - TODO - eventually adjust the sleep timer
-//
-// Traces only from vehicles, so no ZED tracing, should not be used for infantry. Inlcudes refuel and reammo functions for the vehicle
+// Traces only from vehicles, so no ZED tracing, should not be used for infantry. Includes refuel and reammo functions for the vehicle
 
 private ["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_tagged","_veh_weapons","_vehicle","_weapons","_weapon","_tracewhat"];
 
@@ -29,51 +27,30 @@ _weapons = weapons _ai;
 _weapon = _weapons select 0;
 _magazintype= getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines") select 0;
 
-_detectrange=300;
-_humanitylimit=-2000;
+_detectrange = SAR_DETECT_HOSTILE * 1.5;
+_humanitylimit = SAR_HUMANITY_HOSTILE_LIMIT;
 _humanity=0;
-_sleeptime=5;
+_sleeptime = SAR_DETECT_INTERVAL;
     
 while {alive _ai} do {
-
-    //diag_log "heartbeat";
 
     if !(isServer) then {
     
         _entity_array = (position _ai) nearEntities [_tracewhat, _detectrange];
         
         {
-
-            if(vehicle _ai != _ai) then { // NPC in a vehicle
-
-                if(isPlayer _x) then {
-                    _humanity= _x getVariable ["humanity",0];
-                    _tagged = _x getVariable ["tagged",false];
-                    
-                    If (_humanity < _humanitylimit && rating _x > -10000 && !_tagged) then {
-                        if(SAR_EXTREME_DEBUG) then {
-                            diag_log format["SAR EXTREME DEBUG: reducing rating (trace_from_vehicle - vehicle) for player: %1", _x];
-                        };
-                        _x setVariable["tagged",true,true];
-                        _x addrating -10000;
-                        
+            if(isPlayer _x) then {
+                _humanity= _x getVariable ["humanity",0];
+                _tagged = _x getVariable ["tagged",false];
+                
+                If (_humanity < _humanitylimit && rating _x > -10000 && !_tagged) then {
+                    if(SAR_EXTREME_DEBUG) then {
+                        diag_log format["SAR EXTREME DEBUG: reducing rating (trace_from_vehicle - vehicle) for player: %1", _x];
                     };
-                };
-            
-            } else { //NPC on foot
-
-                if(isPlayer _x) then {
-                    _humanity= _x getVariable ["humanity",0];
-
-                    If (_humanity < _humanitylimit && rating _x > -10000) then {
-                        if(SAR_EXTREME_DEBUG) then {
-                            diag_log format["SAR EXTREME DEBUG: reducing rating (trace_from_vehicle - foot) for player: %1", _x];
-                        };
-                        _x addrating -10000;
-                    };
+                    _x setVariable["tagged",true,true];
+                    _x addrating -10000;
                 };
             };
-
             
         } forEach _entity_array;
     };

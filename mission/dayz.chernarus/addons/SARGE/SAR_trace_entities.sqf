@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -13,7 +13,7 @@
 //  
 // ---------------------------------------------------------------------------------------------------------
 //   SAR_trace_entities.sqf
-//   last modified: 26.2.2013
+//   last modified: 20.3.2013
 // ---------------------------------------------------------------------------------------------------------
 
 private ["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_weapons","_weapon"];
@@ -23,20 +23,17 @@ _ai = _this select 0;
 _weapons = weapons _ai;
 _weapon = _weapons select 0;
 _magazintype = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines") select 0;
-_detectrange=200;
+_detectrange = SAR_DETECT_HOSTILE;
 _humanitylimit=0;
 _humanity=0;
-_sleeptime = 15;
+_sleeptime = SAR_DETECT_INTERVAL;
     
 while {alive _ai} do {
 
-    //diag_log "heartbeat";
-    
     if !(isServer) then {
         
         _entity_array = (position _ai) nearEntities ["CAManBase",_detectrange];
         {
-        
             if(vehicle _ai != _ai) then { // is in vehicle
 
                 if(isPlayer _x) then {
@@ -68,7 +65,7 @@ while {alive _ai} do {
                         if(rating _x > -10000) then {
                             _x addrating -10000;
                             if(SAR_EXTREME_DEBUG) then {
-                                diag_log format["SAR EXTREME DEBUG: Zombie rated down: %1",(rating _x)];
+                                diag_log "SAR EXTREME DEBUG: Zombie rated down";
                             };
                         };
                     };
@@ -81,13 +78,28 @@ while {alive _ai} do {
 
     // refresh ammo
     
+    // SARGE 2add: reloading of rifle and pistol
+    
     if (isServer) then {
         
-        if ((_ai ammo _weapon == 0) || ((count magazines _ai) < 1))  then {
-            {_ai removeMagazine _x} forEach magazines _ai;
-            _ai addMagazine _magazintype;
-            if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded";};
-        };
+        {
+            if(_x typeOf "Rifle") then {
+                if ((_ai ammo _x == 0) || ((count magazines _ai) < 1))  then {
+                    {_ai removeMagazine _x} forEach magazines _ai;
+                    _ai addMagazine _magazintype;
+                    if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded ammo for a rifle.";};
+                };
+            };
+            if(_x typeOf "Pistol") then {
+                if ((_ai ammo _x == 0) || ((count magazines _ai) < 1))  then {
+                    {_ai removeMagazine _x} forEach magazines _ai;
+                    _ai addMagazine _magazintype;
+                    if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded ammo for a pistol.";};
+                };
+            };
+
+        } foreach _weapons;
+        
     };
     
     sleep _sleeptime;

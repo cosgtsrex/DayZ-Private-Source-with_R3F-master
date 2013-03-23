@@ -1,7 +1,7 @@
 if(!X_Server) exitWith {};
 
 
-private ["_counter","_pos","_markerName","_marker","_amountOfVehicles","_hint"];
+private ["_obj","_newpos","_worldname","_mpos","_cposx_corr","_cposy_corr","_markersize","_counter","_pos","_markerName","_marker","_amountOfVehicles","_hint"];
 _counter = 0;
 
 diag_log format["Objects Spawning Started"];
@@ -42,12 +42,55 @@ objectList = [	"Land_prebehlavka",
 
 // define area (Chernarus)
 
-//if(worldname == "tavi") then {
-    _this = createMarker ["_shk_area", [7615.7163, 7217.0703]];
-    _this setMarkerSize [6000, 6000];
-//} elseif 
+_worldname= toLower format["%1",worldName];
 
-_this setMarkerAlpha 0;
+switch (_worldname) do {
+    case "chernarus":
+    {
+        _mpos = getMarkerpos "center";
+        _cposx_corr= (_mpos select 0) + 0;
+        _cposy_corr= (_mpos select 0) - 0;
+        _markersize = [6000,6000];
+        
+        
+    };
+    case "tavi":
+    {
+        _mpos = getMarkerpos "center";
+        _cposx_corr= (_mpos select 0) +2000;
+        _cposy_corr= (_mpos select 0) -3000;
+        _markersize = [9000,9000];
+    };
+    case "namalsk":
+    {
+        
+    };
+    case "lingor":
+    {
+        
+    };
+    case "mbg_celle2":
+    {
+        
+    };
+    case "takistan":
+    {
+        
+    };
+    case "fallujah":
+    {
+        
+    };
+    case "panthera":
+    {
+        
+    };
+
+};
+_this = createMarker ["_shk_area", [_cposx_corr, _cposy_corr]];
+_this setMarkerSize _markersize;
+
+_this setMarkerAlpha 1;
 _this setMarkerShape "RECTANGLE";
 _this setMarkerType "SOLID";
 _this setMarkerBrush "Border";

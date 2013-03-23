@@ -1,0 +1,50 @@
+TODO
+
+
+- find a way bandits can travel in the same vehicle
+
+    - problem with addrating -10000 = enemy to everyone
+    - need to look into if its possible to add a trigger to the cars to remove the rating if ppl are close to cars
+    - would mean that bandit helis and cars never get shot by AI
+    - switch sides of bandits while in a car ?
+
+- implement safe zones / trading zones
+
+    - problem of bandits defending bandits areas
+    - 2 triggers to handle distance warning & actual noshoot zone
+    - defended by AI that can not be damaged
+
+- implement random voice radio messages
+
+    - can only be heard by ppl that found a radio
+    - radio is rare spawn on AI leaders
+    - radio will give away the position of special areas (e.g. safe zone, "Most wanted")
+
+- implement respawn logic for UPSMON 
+
+    - restore weapon loadout on respawn         - TESTING
+    - respawn heli patrols                      - TESTING
+    
+- implement heli taxi patrols for survivors
+
+- implement high armor hard to kill "Most Wanted" guys
+
+    - think about rewards
+        
+- extend AI behaviour
+
+    - campfire with guards
+    - let them sing / party / take a pee / chop wood
+    - check if snipers can be simulated
+    - addaction to tell about what the AI has seen
+    - let the AI bury bodies, set a cross
+    
+- call medical support via radio
+
+- lock cars
+
+- parachute the soldiers in randomly
+
+- implement talking AI
+
+    - e.g. "bye buddy" after having come for med reasons

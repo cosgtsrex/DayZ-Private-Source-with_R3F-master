@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -13,6 +13,7 @@
 //  
 // ---------------------------------------------------------------------------------------------------------
 //  SAR_AI_despawn.sqf - handle the logic of despawning  AI groups via the defined trigger array
+//  last modified: 20.3.2013
 // ---------------------------------------------------------------------------------------------------------
 
 
@@ -46,7 +47,6 @@ if !(triggerActivated _trigger) then {
         diag_log "SAR EXTREME DEBUG: Content of the Monitor before despawn deletion";
         call SAR_DEBUG_mon;
     };
-        
     
     // get all groups in that area
     _valuearray= [["grps_band","grps_sold","grps_surv"],_markername] call SAR_AI_mon_read; 
@@ -57,19 +57,19 @@ if !(triggerActivated _trigger) then {
     
     {
         {deleteVehicle _x} forEach (units _x);
-        sleep 1;
+        sleep 0.5;
         deleteGroup _x;
     } forEach (_grps_band);
     
     {
         {deleteVehicle _x} forEach (units _x);
-        sleep 1;
+        sleep 0.5;
         deleteGroup _x;
     } forEach (_grps_sold);
 
     {
         {deleteVehicle _x} forEach (units _x);
-        sleep 1;
+        sleep 0.5;
         deleteGroup _x;
     } forEach (_grps_surv);
     

@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -13,10 +13,11 @@
 //  
 // ---------------------------------------------------------------------------------------------------------
 //  SAR_AI_spawn.sqf - handle the logic of spawning and despawning AI groups via the defined trigger array
+//  last modified: 20.3.2013
 // ---------------------------------------------------------------------------------------------------------
 
 
-private ["_i","_snipers","_soldiers","_group","_check","_probability","_chance","_playerlist","_triggername","_tmparr","_markername","_player","_valuearray","_max_grps","_rnd_grps","_max_p_grp","_grps_band","_grps_sold","_grps_surv","_grps_upd"];
+private ["_i","_snipers","_soldiers","_group","_check","_probability","_chance","_playerlist","_triggername","_tmparr","_markername","_player","_valuearray","_max_grps","_rnd_grps","_max_p_grp","_grps_band","_grps_sold","_grps_surv","_grps_upd","_respawn"];
 
 if (!isServer) exitWith {}; // only run this on the server
 
@@ -41,6 +42,10 @@ if (SAR_EXTREME_DEBUG) then {
     call SAR_DEBUG_mon;
 };
 
+if (SAR_dynamic_group_respawn) then {
+    _respawn = true;
+};
+
 _valuearray= [["max_grps","rnd_grps","max_p_grp","grps_band","grps_sold","grps_surv"],_markername] call SAR_AI_mon_read; 
 
 _max_grps=_valuearray select 0;
@@ -61,7 +66,7 @@ for [{_i = (count _grps_band)},{_i < (_max_grps select 0)}, {_i=_i+1}]  do
         if(_chance < _probability) then {
             _snipers=floor (random (_max_p_grp select 0));
             _soldiers =(_max_p_grp select 0) - _snipers;
-            _group = [_markername,3,_snipers,_soldiers,""] call SAR_AI;
+            _group = [_markername,3,_snipers,_soldiers,"",_respawn] call SAR_AI;
             _grps_upd set [count _grps_upd,_group];
             // update AI monitor
             _check = [["grps_band"],[_grps_upd],_markername] call SAR_AI_mon_upd; 
@@ -79,7 +84,7 @@ for [{_i = (count _grps_sold)},{_i < (_max_grps select 1)}, {_i=_i+1}]  do
         if(_chance < _probability) then {
             _snipers=floor (random (_max_p_grp select 1));
             _soldiers =(_max_p_grp select 1) - _snipers;
-            _group = [_markername,1,_snipers,_soldiers,""] call SAR_AI;
+            _group = [_markername,1,_snipers,_soldiers,"",_respawn] call SAR_AI;
             _grps_upd set [count _grps_upd,_group];
             // update AI monitor
             _check = [["grps_sold"],[_grps_upd],_markername] call SAR_AI_mon_upd; 
@@ -97,7 +102,7 @@ for [{_i = (count _grps_surv)},{_i < (_max_grps select 2)}, {_i=_i+1}]  do
         if(_chance < _probability) then {
             _snipers=floor (random (_max_p_grp select 2));
             _soldiers =(_max_p_grp select 2) - _snipers;
-            _group = [_markername,2,_snipers,_soldiers,""] call SAR_AI;
+            _group = [_markername,2,_snipers,_soldiers,"",_respawn] call SAR_AI;
             _grps_upd set [count _grps_upd,_group];
             // update AI monitor
             _check = [["grps_surv"],[_grps_upd],_markername] call SAR_AI_mon_upd; 

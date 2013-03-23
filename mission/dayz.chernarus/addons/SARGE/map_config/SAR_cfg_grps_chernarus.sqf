@@ -64,7 +64,7 @@ this number is randomized
 //
  
 // Kamenka, 0 bandit groups, 1 soldier groups, 2 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
-_check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,2],[0,75,100],[0,4,3]],"SAR_area_0_0"] call SAR_AI_mon_upd; 
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,2],[0,100,100],[0,2,1]],"SAR_area_0_0"] call SAR_AI_mon_upd; 
 
 // Balota, 1 bandit groups, 0 soldier groups, 2 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
 _check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[80,0,80],[2,0,3]],"SAR_area_1_0"] call SAR_AI_mon_upd; 
@@ -153,7 +153,7 @@ _this setMarkerDir 59.354115;
 SAR_marker_helipatrol_nwaf = _this;
 
 // NEAF, heli patrol area
-_this = createMarker ["SAR_AREA_NEAF", [12034.16, 12725.376, 0]];
+_this = createMarker ["SAR_patrol_NEAF", [12034.16, 12725.376, 0]];
 _this setMarkerShape "RECTANGLE";
 _this setMarkeralpha 0;
 _this setMarkerType "Flag";
@@ -163,14 +163,23 @@ SAR_marker_helipatrol_neaf = _this;
 
 
 // SAR DEBUG AREA - at NWAF
-_this = createMarker ["SAR_area_DEBUG", [4525.3335, 10292.299]];
+_this = createMarker ["SAR_marker_DEBUG", [4600.3335, 10240.299]];
 _this setMarkerShape "RECTANGLE";
-_this setMarkeralpha 0;
+_this setMarkeralpha 1;
 _this setMarkerType "Flag";
 _this setMarkerBrush "Solid";
-_this setMarkerSize [50, 50];
+_this setMarkerSize [100, 100];
 _this setMarkerDir 59.354115;
-SAR_area_DEBUG = _this;
+SAR_marker_DEBUG = _this;
+
+// SAR DEBUG AREA - at Skaly
+_this = createMarker ["SAR_marker_DEBUG1", [2519.3335, 13140.299]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 1;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [200, 200];
+SAR_marker_DEBUG1 = _this;
 
 // ----------------------------------------------------------------------------------------
 // End of area marker definition section
@@ -188,37 +197,130 @@ diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 //
 
  //Heli Patrol NWAF
-[SAR_marker_helipatrol_nwaf,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_nwaf,1,true] call SAR_AI_heli;
 
 //Heli Patrol NEAF
-[SAR_marker_helipatrol_neaf,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_neaf,1,true] call SAR_AI_heli;
 
 // Heli patrol south coast
-[SAR_marker_helipatrol_southcoast,1] call SAR_AI_heli;
-[SAR_marker_helipatrol_southcoast,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_southcoast,1,true] call SAR_AI_heli;
+[SAR_marker_helipatrol_southcoast,1,true] call SAR_AI_heli;
 
 // heli patrol east coast
-[SAR_marker_helipatrol_eastcoast,1] call SAR_AI_heli;
-[SAR_marker_helipatrol_eastcoast,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_eastcoast,1,true] call SAR_AI_heli;
+[SAR_marker_helipatrol_eastcoast,1,true] call SAR_AI_heli;
 
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 //---------------------------------------------------------------------------------
 // Static, predefined infantry patrols in defined areas with configurable units
 //---------------------------------------------------------------------------------
-// Example: [SAR_area_DEBUG,1,0,1,""] call SAR_AI;
+// Example: [SAR_area_DEBUG,1,0,1,"",true] call SAR_AI;
 // 
 // SAR_area_DEBUG = areaname (must have been defined further up)
 // 1 = type of group (1 = soldiers, 2 = survivors, 3 = bandits)
 // 0 = amount of snipers in the group
 // 1 = amount of rifleman in the group
-//
-//
+// "" = action, possible values: "noupsmon","fortify","ambush","patrol"
+// true = respawning group, true or false
 
 // Example entries:
 // SARGE DEBUG - Debug group
 // military, 0 snipers, 1 riflemen, patrol
-//[SAR_area_DEBUG,1,0,1,""] call SAR_AI;
+
+//[SAR_area_DEBUG,1,"SAR_DEBUG"] call SAR_AI_heli;
+
+//[SAR_marker_DEBUG,1,0,1,"noUpsmon",true] call SAR_AI;
+
+_grp = [SAR_marker_DEBUG,1,0,2,"patrol",true] call SAR_AI;
+
+//[SAR_marker_DEBUG1,1,true] call SAR_AI_heli;
+
+//sleep 30;
+//KRON_UPS_SAR_leader_1 = 2; // suspend UPSMON
+sleep 15;
+
+// test for AI start / stop behaviour and campfire
+
+/* {
+    //doStop _x;
+    //_x disableAI "MOVE";
+} foreach units _grp;
+
+        
+_pos = getpos leader _grp; 
+diag_log _pos;
+
+_pos = (leader _grp) modelToWorld[0,0,0];
+diag_log _pos;
+
+_veh = createvehicle["Land_Campfire_burning",_pos,[],0,"NONE"];
+
+_units = units _grp;
+_count = count _units;
+
+_angle = 360/_count;
+
+SAR_sit_radius =5;
+
+{
+    _newpos = (_veh modelToWorld [(sin (_forEachIndex * _angle))*SAR_sit_radius, (cos (_forEachIndex *_angle))*SAR_sit_radius, 0]);
+    
+    diag_log format["Newpos %1: %2",_foreachindex,_newpos];    
+
+    _x moveTo _newpos;
+    _x doMove _newpos;
+    while{(_newpos distance (getpos _x)) > 1} do {}; 
+   
+    //_x doWatch (_veh modelToWorld [(sin (_foreachindex * _angle))*SAR_sit_radius, (cos (_foreachindex * _angle))*SAR_sit_radius, 0]);
+    //_x doWatch _veh;
+    _x setDir ((_foreachIndex * _angle)+180); 
+    
+    _x playActionNow "SitDown";
+    sleep 1;
+    _x disableAI "MOVE";
+
+} foreach _units;
+ */
+
+
+
+//sleep 120;
+//KRON_UPS_SAR_leader_1 = 1; // resume UPSMON
+
+
+
+
+
+
+// test of actions
+
+//[SAR_area_DEBUG,3,0,1] call SAR_AI;
+
+//[SAR_area_DEBUG,1,0,4,"ambush"] call SAR_AI;
+
+//[SAR_area_DEBUG,2,0,1,"patrol"] call SAR_AI;
+
+//[SAR_area_DEBUG,2,0,2,""] call SAR_AI;
+
+
+// test to move markers
+
+/* sleep 30;
+
+SAR_area_DEBUG setMarkerPos [4525, 10200];
+
+sleep 30;
+
+SAR_area_DEBUG setMarkerPos [4525, 10200 - 100];
+
+sleep 30;
+
+SAR_area_DEBUG setMarkerPos [4525, 10200];
+ */
+
+
+
 
 // military, 2 snipers, 4 riflemen, patrol
 //[SAR_area_DEBUG,1,2,4,""] call SAR_AI;
